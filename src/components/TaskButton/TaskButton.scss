@@ -1,0 +1,28 @@
+.task-button {
+    padding: 0 10px;
+    border-radius: 5px;
+    &.delete-btn {
+        background-color: #f16147;
+        border: 1px solid #b32f2f;
+        color: #fff;
+        &:hover {
+            background-color: #fa0c0ce7;
+        }
+    }
+    &.done-btn {
+        background-color: #bcf02c;
+        border: 1px solid #2ca028;
+        color: #fff;
+        &:hover {
+            background-color: #3cfa0ce7;
+        }
+    }
+    &.undone-btn {
+        background-color: #fcea4dea;
+        border: 1px solid #a19703;
+        color: #fff;
+        &:hover {
+            background-color: #fdc306;
+        }
+    }
+}

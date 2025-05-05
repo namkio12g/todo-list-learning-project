@@ -1,0 +1,30 @@
+.task-card {
+    &.red-theme {
+        background-color: orange;
+        border-color: rgb(155, 62, 1);
+        .task-card-header {
+            background-color: rgb(255, 115, 0);
+        }
+    }
+    &.green-theme {
+        background-color: rgba(124, 248, 8, 0.911);
+        border-color: rgb(1, 155, 1);
+        .task-card-header {
+            background-color: rgb(75, 160, 5);
+        }
+    }
+    &.blue-theme {
+        background-color: rgba(8, 240, 248, 0.911);
+        border-color: rgb(7, 92, 141);
+        .task-card-header {
+            background-color: rgb(5, 128, 150);
+        }
+    }
+    &.indigo-theme {
+        background-color: #a500fd;
+        border-color: #5d0d88;
+        .task-card-header {
+            background-color: #5c048c;
+        }
+    }
+}
