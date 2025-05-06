@@ -1,16 +1,31 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import TaskCard from "../components/TaskCard/TaskCard";
+import { Task } from "./AllTasks";
+import apiClient from "../api/TaskAPI";
 
 const CompletedTasksPage: React.FC = () => {
     const themes = ["blue-theme", "red-theme", "green-theme", "indigo-theme"];
-    const data = [
-        { taskType: "Task 1", taskName: "Description for Task 1" },
-        { taskType: "Task 2", taskName: "Description for Task 2" },
-        { taskType: "Task 3", taskName: "Description for Task 3" },
-        { taskType: "Task 3", taskName: "Description for Task 3" },
-        { taskType: "Task 3", taskName: "Description for Task 3" },
-        { taskType: "Task 3", taskName: "Description for Task 3" },
-    ];
+    const [data, setData] = useState<Task[]>([]);
+
+    useEffect(() => {
+        const fetchUndoneTasks = async () => {
+            const response = await fetch(
+                "http://localhost:3001/tasks?isDone=true"
+            );
+            response
+                .json()
+                .then((tasks) => {
+                    console.log(tasks);
+                    setData(tasks);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
+        fetchUndoneTasks();
+        return;
+    }, []);
+
     const tasks = useMemo(() => {
         return data.map((task) => {
             const theme = themes[Math.floor(Math.random() * themes.length)];
@@ -19,6 +34,18 @@ const CompletedTasksPage: React.FC = () => {
         });
     }, [data]);
 
+    const deleteTask = async (taskId: string) => {
+        console.log(taskId);
+        await apiClient.delete(`/tasks/${taskId}`);
+        setData((prevData) => prevData.filter((task) => task.id !== taskId));
+    };
+
+    const undoneTask = async (taskId: string) => {
+        await apiClient.patch(`/tasks/${taskId}`, {
+            isDone: false,
+        });
+        setData((prevData) => prevData.filter((task) => task.id !== taskId));
+    };
     return (
         <div className="all-tasks-container place-items-center">
             <div className="container-title text-3xl text-emerald-800 font-semibold font-comic mb-5 ">
@@ -32,6 +59,9 @@ const CompletedTasksPage: React.FC = () => {
                             taskName={task.taskName}
                             taskType={task.taskType}
                             theme={task.theme}
+                            time={task.time}
+                            onDelete={() => deleteTask(task.id)}
+                            onToggle={() => undoneTask(task.id)}
                         />
                     );
                 })}

@@ -7,10 +7,12 @@ interface TaskProps {
     taskName: string;
     taskType: string;
     theme: string;
-    // times: {
-    //     endTime: string;
-    //     startTime:string;
-    // };
+    time: {
+        endTime: Date;
+        startTime: Date;
+    };
+    onDelete: () => void;
+    onToggle: () => void;
 }
 
 const TaskCard: React.FC<TaskProps> = ({
@@ -18,6 +20,9 @@ const TaskCard: React.FC<TaskProps> = ({
     isDone,
     taskType,
     theme,
+    time,
+    onDelete,
+    onToggle,
 }) => {
     return (
         <div
@@ -25,8 +30,12 @@ const TaskCard: React.FC<TaskProps> = ({
         >
             <div className="task-card-header flex flex-col justify-between    h-full w-[150px] px-3 py-3 place-items-center">
                 <div className="task-times place-items-center ">
-                    <p className="text-sm text-white">s : 21/02/2022</p>
-                    <p className="text-sm text-white">e : 27/03/2023</p>
+                    <p className="text-sm text-white">
+                        {new Date(time.startTime).toLocaleDateString("en-GB")}
+                    </p>
+                    <p className="text-sm text-white">
+                        - {new Date(time.endTime).toLocaleDateString("en-GB")}
+                    </p>
                 </div>
                 <div className="task-done w-full">
                     {!isDone ? (
@@ -54,19 +63,19 @@ const TaskCard: React.FC<TaskProps> = ({
                             <TaskButton
                                 type="undone-btn"
                                 label="Undone"
-                                onClick={() => {}}
+                                onClick={onToggle}
                             />
                         ) : (
                             <TaskButton
                                 type="done-btn"
                                 label="Done"
-                                onClick={() => {}}
+                                onClick={onToggle}
                             />
                         )}
                         <TaskButton
                             type="delete-btn"
                             label="Delete"
-                            onClick={() => {}}
+                            onClick={onDelete}
                         />
                     </div>
                 </div>
